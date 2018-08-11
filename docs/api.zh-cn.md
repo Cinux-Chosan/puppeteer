@@ -2104,6 +2104,8 @@ This method returns all of the dedicated [WebWorkers](https://developer.mozilla.
 The Worker class represents a [WebWorker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
 The events `workercreated` and `workerdestroyed` are emitted on the page object to signal the worker lifecycle.
 
+Worker 类代表 [WebWorker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API)。与之相关的 `workercreated` 和 `workerdestroyed` 事件会在 page 对象上触发，用来表示 worker 的生命周期。
+
 ```js
 page.on('workercreated', worker => console.log('Worker created: ' + worker.url()));
 page.on('workerdestroyed', worker => console.log('Worker destroyed: ' + worker.url()));
@@ -2114,26 +2116,38 @@ for (const worker of page.workers())
 ```
 
 #### worker.evaluate(pageFunction, ...args)
-- `pageFunction` <[function]|[string]> Function to be evaluated in the worker context
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction`
+- `pageFunction` <[function]|[string]> Function to be evaluated in the worker context （在 worker 上下文中执行的函数）
+- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction` （传给 `pageFunction` 的参数）
+- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction` （返回Promsie，它返回 `pageFunction` 的返回值）
 
 If the function passed to the `worker.evaluate` returns a [Promise], then `worker.evaluate` would wait for the promise to resolve and return its value.
 
-If the function passed to the `worker.evaluate` returns a non-[Serializable] value, then `worker.evaluate` resolves to `undefined`.
+如果传给 `worker.evaluate` 的函数返回一个 Promise，则  `worker.evaluate` 会等待该 promise 返回并返回它返回的值。
+
+If the function passed to the `worker.evaluate` returns a non-[Serializable] value, then `worker.evaluate` resolves to `undefined`.  
+
+如果传给 `worker.evaluate` 的函数返回一个不能序列化（non-[Serializable]）的值，则  `worker.evaluate` 的返回值将为  `undefined`。
 
 Shortcut for [(await worker.executionContext()).evaluate(pageFunction, ...args)](#executioncontextevaluatepagefunction-args).
 
+该方法是  [(await worker.executionContext()).evaluate(pageFunction, ...args)](#executioncontextevaluatepagefunction-args) 的简写。
+
 #### worker.evaluateHandle(pageFunction, ...args)
-- `pageFunction` <[function]|[string]> Function to be evaluated in the page context
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[JSHandle]>> Promise which resolves to the return value of `pageFunction` as in-page object (JSHandle)
+- `pageFunction` <[function]|[string]> Function to be evaluated in the page context （在 page 的上下文中执行的函数）
+- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction` （传给  `pageFunction` 的参数）
+- returns: <[Promise]<[JSHandle]>> Promise which resolves to the return value of `pageFunction` as in-page object (JSHandle) （返回 Promise，该 Promise 返回 `pageFunction` 返回的 in-page 对象作为返回值）
 
 The only difference between `worker.evaluate` and `worker.evaluateHandle` is that `worker.evaluateHandle` returns in-page object (JSHandle).
 
+`worker.evaluate` 和 `worker.evaluateHandle` 的唯一不同就是 `worker.evaluateHandle` 返回的是 in-page 对象（JSHandle）
+
 If the function passed to the `worker.evaluateHandle` returns a [Promise], then `worker.evaluateHandle` would wait for the promise to resolve and return its value.
 
+如果传给 `worker.evaluateHandle` 的函数返回 [Promise]，则 `worker.evaluateHandle` 会等待该 Promise 执行结束并返回其值。
+
 Shortcut for [(await worker.executionContext()).evaluateHandle(pageFunction, ...args)](#executioncontextevaluatehandlepagefunction-args).
+
+该函数是 [(await worker.executionContext()).evaluateHandle(pageFunction, ...args)](#executioncontextevaluatehandlepagefunction-args) 的简写。
 
 #### worker.executionContext()
 - returns: <[Promise]<[ExecutionContext]>>
@@ -2145,9 +2159,16 @@ Shortcut for [(await worker.executionContext()).evaluateHandle(pageFunction, ...
 
 Keyboard provides an api for managing a virtual keyboard. The high level api is [`keyboard.type`](#keyboardtypetext-options), which takes raw characters and generates proper keydown, keypress/input, and keyup events on your page.
 
+Keyboard（键盘） 提供了管理和操作虚拟键盘的 api。高级 API 是 [`keyboard.type`](#keyboardtypetext-options)，它接收原生字符串并在页面上准确地产生 keydown, keypress/input, 和 keyup 事件。
+
 For finer control, you can use [`keyboard.down`](#keyboarddownkey-options), [`keyboard.up`](#keyboardupkey), and [`keyboard.sendCharacter`](#keyboardsendcharacterchar) to manually fire events as if they were generated from a real keyboard.
 
+为了更好的控制键盘，你可以使用  [`keyboard.down`](#keyboarddownkey-options), [`keyboard.up`](#keyboardupkey), 和 [`keyboard.sendCharacter`](#keyboardsendcharacterchar) 来手动触发这些事件，就好比它们真的是键盘输入产生的一样。
+
 An example of holding down `Shift` in order to select and delete some text:
+
+下面演示如何通过按住 `Shift` 来选中和删除文本。
+
 ```js
 await page.keyboard.type('Hello World!');
 await page.keyboard.press('ArrowLeft');
@@ -2162,6 +2183,9 @@ await page.keyboard.press('Backspace');
 ```
 
 An example of pressing `A`
+
+使用键盘按字母 `A` 的示例：
+
 ```js
 await page.keyboard.down('Shift');
 await page.keyboard.press('KeyA');
@@ -2169,57 +2193,83 @@ await page.keyboard.up('Shift');
 ```
 
 > **NOTE** On MacOS, keyboard shortcuts like `⌘ A` -> Select All do not work. See [#1313](https://github.com/GoogleChrome/puppeteer/issues/1313)
+>
+> **提示：** 在 MacOS 中，像 `⌘ A`（选中全部） 这样的快捷键不能正常工作。参考 [#1313](https://github.com/GoogleChrome/puppeteer/issues/1313)
 
 #### keyboard.down(key[, options])
-- `key` <[string]> Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout] for a list of all key names.
+- `key` <[string]> Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout] for a list of all key names. （需要按下的键名，如 `ArrowLeft`。在  [USKeyboardLayout] 可以找到所有按键的键名）
 - `options` <[Object]>
-  - `text` <[string]> If specified, generates an input event with this text.
+  - `text` <[string]> If specified, generates an input event with this text. （如果指定了该值，则会使用这段文字来生成一个 input 事件。）
 - returns: <[Promise]>
 
-Dispatches a `keydown` event.
+Dispatches a `keydown` event.  
+
+派发 `keydown` 事件。
 
 If `key` is a single character and no modifier keys besides `Shift` are being held down, a `keypress`/`input` event will also generated. The `text` option can be specified to force an input event to be generated.
+
+如果 `key` 是单个字符并且没有按住除了 `Shift` 的其它修饰键，则也会生成 `keypress`/`input` 事件。可以指定 `text` 选项来强制生成 input 事件。
 
 If `key` is a modifier key, `Shift`, `Meta`, `Control`, or `Alt`, subsequent key presses will be sent with that modifier active. To release the modifier key, use [`keyboard.up`](#keyboardupkey).
 
-After the key is pressed once, subsequent calls to [`keyboard.down`](#keyboarddownkey-options) will have [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) set to true. To release the key, use [`keyboard.up`](#keyboardupkey).
+如果 `key` 是一个修饰键， `Shift`, `Meta`, `Control`, 或者 `Alt`，随后的按键操作都将会保持修饰键激活的状态。使用 [`keyboard.up`](#keyboardupkey) 来释放修饰键。
+
+After the key is pressed once, subsequent calls to [`keyboard.down`](#keyboarddownkey-options) will have [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) set to true. To release the key, use [`keyboard.up`](#keyboardupkey). 
+
+键被按下一次之后，随后调用 [`keyboard.down`](#keyboarddownkey-options) 会将  [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) 设为 true。使用 [`keyboard.up`](#keyboardupkey) 来释放键。
 
 > **NOTE** Modifier keys DO influence `keyboard.down`. Holding down `Shift` will type the text in upper case.
+>
+> **提示：** 修改键会影响  `keyboard.down`。按住 `Shift` 键将会以大写形式键入文本。
 
 #### keyboard.press(key[, options])
 - `key` <[string]> Name of key to press, such as `ArrowLeft`. See [USKeyboardLayout] for a list of all key names.
-- `options` <[Object]>
-  - `text` <[string]> If specified, generates an input event with this text.
-  - `delay` <[number]> Time to wait between `keydown` and `keyup` in milliseconds. Defaults to 0.
+- `options` <[Object]>  （需要按下的键名，如  `ArrowLeft`。在 [USKeyboardLayout] 可以找到所有的名）
+  - `text` <[string]> If specified, generates an input event with this text. （如果指定该选项，则会使用该选项生成 input 事件）
+  - `delay` <[number]> Time to wait between `keydown` and `keyup` in milliseconds. Defaults to 0. （以毫秒为单位的介于 `keydown` 和 `keyup` 之间的间隔时间，默认为 0）
 - returns: <[Promise]>
 
 If `key` is a single character and no modifier keys besides `Shift` are being held down, a `keypress`/`input` event will also generated. The `text` option can be specified to force an input event to be generated.
 
+如果 `key` 是单个字符并且没有按住除了 `Shift` 的其它修饰键，则也会生成 `keypress`/`input` 事件。可以指定 `text` 选项来强制生成 input 事件。
+
 > **NOTE** Modifier keys DO effect `keyboard.press`. Holding down `Shift` will type the text in upper case.
+>
+> **提示：** 修饰键会影响 `keyboard.press`。按住 `Shift` 键将会以大写形式键入文本。
 
 Shortcut for [`keyboard.down`](#keyboarddownkey-options) and [`keyboard.up`](#keyboardupkey).
 
+该方法是 [`keyboard.down`](#keyboarddownkey-options) 和 [`keyboard.up`](#keyboardupkey) 的简写。
+
 #### keyboard.sendCharacter(char)
-- `char` <[string]> Character to send into the page.
+- `char` <[string]> Character to send into the page. （发送到页面的字符）
 - returns: <[Promise]>
 
 Dispatches a `keypress` and `input` event. This does not send a `keydown` or `keyup` event.
+
+派发  `keypress` 和 `input` 事件。不会发送 `keydown` 或 `keyup` 事件。
 
 ```js
 page.keyboard.sendCharacter('嗨');
 ```
 
 > **NOTE** Modifier keys DO NOT effect `keyboard.sendCharacter`. Holding down `Shift` will not type the text in upper case.
+>
+> **提示：** 修饰键会影响 `keyboard.sendCharacter`。按住 `Shift` 键将会以大写形式键入文本。
 
 #### keyboard.type(text, options)
-- `text` <[string]> A text to type into a focused element.
+- `text` <[string]> A text to type into a focused element. （键入到焦点元素中的文本内容）
 - `options` <[Object]>
-  - `delay` <[number]> Time to wait between key presses in milliseconds. Defaults to 0.
+  - `delay` <[number]> Time to wait between key presses in milliseconds. Defaults to 0. （以毫秒为单位的 `keypress` 之间的间隔时间，默认为 0）
 - returns: <[Promise]>
 
-Sends a `keydown`, `keypress`/`input`, and `keyup` event for each character in the text.
+Sends a `keydown`, ``keypress``/`input`, and `keyup` event for each character in the text.
+
+会为文本中的每个字符生成 `keydown`, ``keypress``/`input`, 和 `keyup` 事件。
 
 To press a special key, like `Control` or `ArrowDown`, use [`keyboard.press`](#keyboardpresskey-options).
+
+如果需要指定按住如 `Control` 或者 `ArrowDown` 这样的键，需要使用 [`keyboard.press`](#keyboardpresskey-options)。
 
 ```js
 page.keyboard.type('Hello'); // Types instantly
@@ -2227,12 +2277,17 @@ page.keyboard.type('World', {delay: 100}); // Types slower, like a user
 ```
 
 > **NOTE** Modifier keys DO NOT effect `keyboard.type`. Holding down `Shift` will not type the text in upper case.
+>
+> **提示：** 修饰键不会影响 `keyboard.type`。按住 `Shift` 也键并不会以大写形式键入文本。
+
 
 #### keyboard.up(key)
-- `key` <[string]> Name of key to release, such as `ArrowLeft`. See [USKeyboardLayout] for a list of all key names.
+- `key` <[string]> Name of key to release, such as `ArrowLeft`. See [USKeyboardLayout] for a list of all key names.  （需要释放的键名，如 `ArrowLeft`，在 [USKeyboardLayout] 可以找到所有的键名）
 - returns: <[Promise]>
 
 Dispatches a `keyup` event.
+
+派发 `keyup` 事件。
 
 ### class: Mouse
 
