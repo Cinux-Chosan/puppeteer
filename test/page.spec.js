@@ -16,18 +16,21 @@
 const fs = require('fs');
 const path = require('path');
 const utils = require('./utils');
-const {waitEvent} = require('./utils');
+const {waitEvent} = utils;
+const {TimeoutError} = utils.requireRoot('Errors');
 
-module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescriptors, headless}) {
+const DeviceDescriptors = utils.requireRoot('DeviceDescriptors');
+const iPhone = DeviceDescriptors['iPhone 6'];
+const iPhoneLandscape = DeviceDescriptors['iPhone 6 landscape'];
+
+module.exports.addTests = function({testRunner, expect, headless}) {
   const {describe, xdescribe, fdescribe} = testRunner;
   const {it, fit, xit} = testRunner;
   const {beforeAll, beforeEach, afterAll, afterEach} = testRunner;
-  const iPhone = DeviceDescriptors['iPhone 6'];
-  const iPhoneLandscape = DeviceDescriptors['iPhone 6 landscape'];
 
   describe('Page.close', function() {
-    it('should reject all promises when page is closed', async({browser}) => {
-      const newPage = await browser.newPage();
+    it('should reject all promises when page is closed', async({context}) => {
+      const newPage = await context.newPage();
       const neverResolves = newPage.evaluate(() => new Promise(r => {}));
       newPage.close();
       let error = null;
@@ -40,8 +43,8 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
       await newPage.close();
       expect(await browser.pages()).not.toContain(newPage);
     });
-    it('should run beforeunload if asked for', async({browser, server}) => {
-      const newPage = await browser.newPage();
+    it('should run beforeunload if asked for', async({context, server}) => {
+      const newPage = await context.newPage();
       await newPage.goto(server.PREFIX + '/beforeunload.html');
       // We have to interact with a page so that 'beforeunload' handlers
       // fire.
@@ -54,8 +57,8 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
       dialog.accept();
       await waitEvent(newPage, 'close');
     });
-    it('should set the page close state', async({ browser }) => {
-      const newPage = await browser.newPage();
+    it('should set the page close state', async({context}) => {
+      const newPage = await context.newPage();
       expect(newPage.isClosed()).toBe(false);
       await newPage.close();
       expect(newPage.isClosed()).toBe(true);
@@ -526,6 +529,7 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
       let error = null;
       await page.goto(server.PREFIX + '/empty.html', {timeout: 1}).catch(e => error = e);
       expect(error.message).toContain('Navigation Timeout Exceeded: 1ms');
+      expect(error).toBeInstanceOf(TimeoutError);
     });
     it('should fail when exceeding default maximum navigation timeout', async({page, server}) => {
       // Hang for request to the empty.html
@@ -534,6 +538,7 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
       page.setDefaultNavigationTimeout(1);
       await page.goto(server.PREFIX + '/empty.html').catch(e => error = e);
       expect(error.message).toContain('Navigation Timeout Exceeded: 1ms');
+      expect(error).toBeInstanceOf(TimeoutError);
     });
     it('should disable timeout when its set to 0', async({page, server}) => {
       let error = null;
@@ -781,8 +786,10 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
             fulfill();
         });
       });
-      frame.evaluate(() => window.stop());
-      await navigationPromise;
+      await Promise.all([
+        frame.evaluate(() => window.stop()),
+        navigationPromise
+      ]);
     });
   });
 
@@ -1530,10 +1537,10 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
       });
       expect(screenshot).toBeGolden('screenshot-grid-fullpage.png');
     });
-    it('should run in parallel in multiple pages', async({page, server, browser}) => {
+    it('should run in parallel in multiple pages', async({page, server, context}) => {
       const N = 2;
       const pages = await Promise.all(Array(N).fill(0).map(async() => {
-        const page = await browser.newPage();
+        const page = await context.newPage();
         await page.goto(server.PREFIX + '/grid.html');
         return page;
       }));
@@ -1662,16 +1669,16 @@ module.exports.addTests = function({testRunner, expect, puppeteer, DeviceDescrip
   });
 
   describe('Page.Events.Close', function() {
-    it('should work with window.close', async function({ page, browser, server }) {
-      const newPagePromise = new Promise(fulfill => browser.once('targetcreated', target => fulfill(target.page())));
+    it('should work with window.close', async function({ page, context, server }) {
+      const newPagePromise = new Promise(fulfill => context.once('targetcreated', target => fulfill(target.page())));
       await page.evaluate(() => window['newPage'] = window.open('about:blank'));
       const newPage = await newPagePromise;
       const closedPromise = new Promise(x => newPage.on('close', x));
       await page.evaluate(() => window['newPage'].close());
       await closedPromise;
     });
-    it('should work with page.close', async function({ page, browser, server }) {
-      const newPage = await browser.newPage();
+    it('should work with page.close', async function({ page, context, server }) {
+      const newPage = await context.newPage();
       const closedPromise = new Promise(x => newPage.on('close', x));
       await newPage.close();
       await closedPromise;
