@@ -2350,6 +2350,8 @@ Dispatches a `touchstart` and `touchend` event.
 
 You can use [`tracing.start`](#tracingstartoptions) and [`tracing.stop`](#tracingstop) to create a trace file which can be opened in Chrome DevTools or [timeline viewer](https://chromedevtools.github.io/timeline-viewer/).
 
+你可以使用 [`tracing.start`](#tracingstartoptions) 和 [`tracing.stop`](#tracingstop) 来创建跟踪文件，它可以在 Chrome DevTools 或者 [timeline viewer](https://chromedevtools.github.io/timeline-viewer/) 中打开。
+
 ```js
 await page.tracing.start({path: 'trace.json'});
 await page.goto('https://www.google.com');
@@ -2358,21 +2360,24 @@ await page.tracing.stop();
 
 #### tracing.start(options)
 - `options` <[Object]>
-  - `path` <[string]> A path to write the trace file to.
-  - `screenshots` <[boolean]> captures screenshots in the trace.
-  - `categories` <[Array]<[string]>> specify custom categories to use instead of default.
+  - `path` <[string]> A path to write the trace file to.  （跟踪文件保存的路径）
+  - `screenshots` <[boolean]> captures screenshots in the trace.  （在跟踪过程中保存屏幕截图）
+  - `categories` <[Array]<[string]>> specify custom categories to use instead of default.  （用于指定自定义分类来取代默认值）
 - returns: <[Promise]>
 
-Only one trace can be active at a time per browser.
+Only one trace can be active at a time per browser. （每个浏览器在同一时间只能有一个处于活动状态的 trace ）
 
 #### tracing.stop()
-- returns: <[Promise]<[Buffer]>> Promise which resolves to buffer with trace data.
+- returns: <[Promise]<[Buffer]>> Promise which resolves to buffer with trace data.  （返回 Promise，它返回包含跟踪数据的 buffer）
 
 ### class: Dialog
 
-[Dialog] objects are dispatched by page via the ['dialog'](#event-dialog) event.
+[Dialog] objects are dispatched by page via the ['dialog'](#event-dialog) event. （page 对象 ['dialog'](#event-dialog) 事件获取到 [Dialog]对象）
 
 An example of using `Dialog` class:
+
+一个使用 `Dialog` 类的例子：
+
 ```js
 const puppeteer = require('puppeteer');
 
@@ -2388,24 +2393,24 @@ puppeteer.launch().then(async browser => {
 ```
 
 #### dialog.accept([promptText])
-- `promptText` <[string]> A text to enter in prompt. Does not cause any effects if the dialog's `type` is not prompt.
-- returns: <[Promise]> Promise which resolves when the dialog has been accepted.
+- `promptText` <[string]> A text to enter in prompt. Does not cause any effects if the dialog's `type` is not prompt. （在 prompt 框中输入的文本。如果弹出框的类型(`type`)不是 prompt 则不会有任何影响 ）
+- returns: <[Promise]> Promise which resolves when the dialog has been accepted. （反正 Promise，该 Promise 在弹窗被接受时会转为完成态）
 
 #### dialog.defaultValue()
-- returns: <[string]> If dialog is prompt, returns default prompt value. Otherwise, returns empty string.
+- returns: <[string]> If dialog is prompt, returns default prompt value. Otherwise, returns empty string. （如果弹窗类型是 prompt，则返回 propmt 的默认值，否则返回空字符串）
 
 #### dialog.dismiss()
-- returns: <[Promise]> Promise which resolves when the dialog has been dismissed.
+- returns: <[Promise]> Promise which resolves when the dialog has been dismissed. （返回Promise，当弹窗退出时该Promise变为完成态）
 
 #### dialog.message()
-- returns: <[string]> A message displayed in the dialog.
+- returns: <[string]> A message displayed in the dialog.  （显示在弹窗中的消息）
 
 #### dialog.type()
-- returns: <[string]> Dialog's type, can be one of `alert`, `beforeunload`, `confirm` or `prompt`.
+- returns: <[string]> Dialog's type, can be one of `alert`, `beforeunload`, `confirm` or `prompt`.  （弹窗类型，可能是  `alert`, `beforeunload`, `confirm` 或 `prompt` 之一）
 
 ### class: ConsoleMessage
 
-[ConsoleMessage] objects are dispatched by page via the ['console'](#event-console) event.
+[ConsoleMessage] objects are dispatched by page via the ['console'](#event-console) event. （page对象通过['console'](#event-console)事件获取到 [ConsoleMessage]  对象）
 
 #### consoleMessage.args()
 - returns: <[Array]<[JSHandle]>>
@@ -2416,7 +2421,9 @@ puppeteer.launch().then(async browser => {
 #### consoleMessage.type()
 - returns: <[string]>
 
-One of the following values: `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.
+One of the following values: `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.  
+
+以下值之一： `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.  
 
 ### class: Frame
 
@@ -2599,7 +2606,6 @@ const resultHandle = await frame.evaluateHandle(body => body.innerHTML, aHandle)
 console.log(await resultHandle.jsonValue());
 await resultHandle.dispose();
 ```
-
 
 #### frame.executionContext()
 - returns: <[Promise]<[ExecutionContext]>> Execution context associated with this frame.
