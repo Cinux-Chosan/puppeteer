@@ -2318,7 +2318,7 @@ Dispatches a `mousedown` event.
 - `x` <[number]>
 - `y` <[number]>
 - `options` <[Object]>
-  - `steps` <[number]> defaults to 1. Sends intermediate `mousemove` events.  （默认为 1，移动中会发送`mousemove` 事件）
+  - `steps` <[number]> defaults to 1. Sends intermediate `mousemove` events.  （默认为 1，表示移动中会发送`mousemove` 事件次数）（译者注：如果 x 为 100，y 为 20 且 step为 1 时，则会在鼠标到达坐标 `100,20` 处发送一次 `mousemove` 事件，如果 step 为 2，则会在 `50,10` 处发送一次，在 `100,20` 处发送第二次。以此类推）
 - returns: <[Promise]>
 
 Dispatches a `mousemove` event.
