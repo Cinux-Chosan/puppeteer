@@ -2295,37 +2295,45 @@ Dispatches a `keyup` event.
 - `x` <[number]>
 - `y` <[number]>
 - `options` <[Object]>
-  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.
-  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].
-  - `delay` <[number]> Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0.
+  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`. （`left`, `right`, 或 `middle`, 默认为 `left`）
+  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail]. （默认为 1，参考 [UIEvent.detail] ）
+  - `delay` <[number]> Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0. （鼠标按下（`mousedown`事件）和抬起（`mouseup`事件）之间的间隔，以毫秒为单位，默认为 0）
 - returns: <[Promise]>
 
 Shortcut for [`mouse.move`](#mousemovex-y-options), [`mouse.down`](#mousedownoptions) and [`mouse.up`](#mouseupoptions).
 
+该方法为 [`mouse.move`](#mousemovex-y-options), [`mouse.down`](#mousedownoptions) 和 [`mouse.up`](#mouseupoptions) 的简写。
+
 #### mouse.down([options])
 - `options` <[Object]>
-  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.
-  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].
+  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.  （`left`, `right`, 或 `middle`, 默认为 `left`）
+  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail]. （默认为 1，参考 [UIEvent.detail] ）
 - returns: <[Promise]>
 
 Dispatches a `mousedown` event.
+
+派发 `mousedown` 事件。 
 
 #### mouse.move(x, y, [options])
 - `x` <[number]>
 - `y` <[number]>
 - `options` <[Object]>
-  - `steps` <[number]> defaults to 1. Sends intermediate `mousemove` events.
+  - `steps` <[number]> defaults to 1. Sends intermediate `mousemove` events.  （默认为 1，移动中会发送`mousemove` 事件）
 - returns: <[Promise]>
 
 Dispatches a `mousemove` event.
 
+派发 `mousemove` 事件。
+
 #### mouse.up([options])
 - `options` <[Object]>
-  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.
-  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].
+  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.   （`left`, `right`, 或 `middle`, 默认为 `left`）
+  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].  （默认为 1， 参考 [UIEvent.detail]）
 - returns: <[Promise]>
 
 Dispatches a `mouseup` event.
+
+派发 `mouseup` 事件。
 
 ### class: Touchscreen
 
@@ -2334,7 +2342,9 @@ Dispatches a `mouseup` event.
 - `y` <[number]>
 - returns: <[Promise]>
 
-Dispatches a `touchstart` and `touchend` event.
+Dispatches a `touchstart` and `touchend` event. 
+
+派发 `touchstart` 和 `touchend` 事件。
 
 ### class: Tracing
 
