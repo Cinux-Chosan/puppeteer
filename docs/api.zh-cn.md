@@ -2807,15 +2807,20 @@ puppeteer.launch().then(async browser => {
 ### class: ExecutionContext
 
 The class represents a context for JavaScript execution. Examples of JavaScript contexts are:
-- each [frame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) has a separate execution context
-- all kind of [workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) have their own contexts
+
+这是一个代表 JavaScript 执行上下文的类。JavaScript 上下文如：
+
+- each [frame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) has a separate execution context （每个 [frame](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe) 都有一个独立的执行上下文）
+- all kind of [workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) have their own contexts （所有 [workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API) 都有它们自己的上下文）
 
 #### executionContext.evaluate(pageFunction, ...args)
-- `pageFunction` <[function]|[string]> Function to be evaluated in `executionContext`
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction`
+- `pageFunction` <[function]|[string]> Function to be evaluated in `executionContext` （需要在 `executionContext` 上下文中执行的函数）
+- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction` （传给 `pageFunction` 的参数）
+- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction` （能够返回 `pageFunction` 返回值的 Promise）
 
 If the function passed to the `executionContext.evaluate` returns a [Promise], then `executionContext.evaluate` would wait for the promise to resolve and return its value.
+
+如果传给 `executionContext.evaluate` 的函数返回 [Promise]，则 `executionContext.evaluate` 会等待该 promise 返回。
 
 ```js
 const executionContext = await page.mainFrame().executionContext();
@@ -2825,11 +2830,16 @@ console.log(result); // prints "56"
 
 A string can also be passed in instead of a function.
 
+也可以用字符串来取代函数。
+
 ```js
 console.log(await executionContext.evaluate('1 + 2')); // prints "3"
 ```
 
 [JSHandle] instances can be passed as arguments to the `executionContext.evaluate`:
+
+[JSHandle] 的实例能够作为 `executionContext.evaluate` 的参数：
+
 ```js
 const oneHandle = await executionContext.evaluateHandle(() => 1);
 const twoHandle = await executionContext.evaluateHandle(() => 2);
@@ -2840,13 +2850,17 @@ console.log(result); // prints '3'.
 ```
 
 #### executionContext.evaluateHandle(pageFunction, ...args)
-- `pageFunction` <[function]|[string]> Function to be evaluated in the `executionContext`
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[JSHandle]>> Promise which resolves to the return value of `pageFunction` as in-page object (JSHandle)
+- `pageFunction` <[function]|[string]> Function to be evaluated in the `executionContext` （在上下文 `executionContext` 中执行的函数）
+- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`  （传给 `pageFunction` 的参数）
+- returns: <[Promise]<[JSHandle]>> Promise which resolves to the return value of `pageFunction` as in-page object (JSHandle) （返回Promise，能够将 `pageFunction` 返回值作为页内（in-page）对象返回）
 
 The only difference between `executionContext.evaluate` and `executionContext.evaluateHandle` is that `executionContext.evaluateHandle` returns in-page object (JSHandle).
 
+ `executionContext.evaluate` 和 `executionContext.evaluateHandle` 的唯一不同之处就是 `executionContext.evaluateHandle` 返回的是页内（in-page）对象（JSHandle）
+
 If the function passed to the `executionContext.evaluateHandle` returns a [Promise], then `executionContext.evaluateHandle` would wait for the promise to resolve and return its value.
+
+如果传给 `executionContext.evaluateHandle` 的函数返回 [Promise]，则 `executionContext.evaluateHandle` 会等待该 promise 返回。
 
 ```js
 const context = await page.mainFrame().executionContext();
@@ -2856,11 +2870,16 @@ aHandle; // Handle for the global object.
 
 A string can also be passed in instead of a function.
 
+也可以用字符串来取代函数。
+
 ```js
 const aHandle = await context.evaluateHandle('1 + 2'); // Handle for the '3' object.
 ```
 
 [JSHandle] instances can be passed as arguments to the `executionContext.evaluateHandle`:
+
+[JSHandle] 的实例能够作为 `executionContext.evaluateHandle` 的参数：
+
 ```js
 const aHandle = await context.evaluateHandle(() => document.body);
 const resultHandle = await context.evaluateHandle(body => body.innerHTML, aHandle);
@@ -2870,15 +2889,19 @@ await resultHandle.dispose();
 ```
 
 #### executionContext.frame()
-- returns: <?[Frame]> Frame associated with this execution context.
+- returns: <?[Frame]> Frame associated with this execution context. （与当前执行上下午相关联的 frame）
 
 > **NOTE** Not every execution context is associated with a frame. For example, workers and extensions have execution contexts that are not associated with frames.
+>
+> **提示：** 并非每个执行上下文都关联一个 frame。例如，workders 和 extensions 的执行上下午就没有关联的 frame。
 
 #### executionContext.queryObjects(prototypeHandle)
-- `prototypeHandle` <[JSHandle]> A handle to the object prototype.
-- returns: <[JSHandle]> A handle to an array of objects with this prototype
+- `prototypeHandle` <[JSHandle]> A handle to the object prototype.  （对象原型（prototype）的句柄）
+- returns: <[JSHandle]> A handle to an array of objects with this prototype  （一个包含了所有建立在该原型上的对象的数组的句柄）
 
 The method iterates the JavaScript heap and finds all the objects with the given prototype.
+
+该方法通过迭代 JavaScript 堆内存并且查找所有使用了该原型的对象。
 
 ```js
 // Create a Map object
@@ -2896,6 +2919,8 @@ await mapPrototype.dispose();
 ### class: JSHandle
 
 JSHandle represents an in-page JavaScript object. JSHandles can be created with the [page.evaluateHandle](#pageevaluatehandlepagefunction-args) method.
+ 
+JSHandle 代表页内 JavaScript 对象。 JSHandle 可以通过  [page.evaluateHandle](#pageevaluatehandlepagefunction-args) 方法来创建。
 
 ```js
 const windowHandle = await page.evaluateHandle(() => window);
@@ -2904,27 +2929,39 @@ const windowHandle = await page.evaluateHandle(() => window);
 
 JSHandle prevents the referenced JavaScript object being garbage collected unless the handle is [disposed](#jshandledispose). JSHandles are auto-disposed when their origin frame gets navigated or the parent context gets destroyed.
 
+JSHandle 能够阻止 JavaScript 对象被垃圾回收机制清理，除非调用 [disposed](#jshandledispose) 来释放了 JSHandle 对象。JSHandle 会在原 frame 导航离开或者父级上下文被销毁时自动释放（auto-disposed）。
+
 JSHandle instances can be used as arguments in [`page.$eval()`](#pageevalselector-pagefunction-args), [`page.evaluate()`](#pageevaluatepagefunction-args) and [`page.evaluateHandle`](#pageevaluatehandlepagefunction-args) methods.
+
+JSHandle 实例能够作为  [`page.$eval()`](#pageevalselector-pagefunction-args)、 [`page.evaluate()`](#pageevaluatepagefunction-args) 和 [`page.evaluateHandle`](#pageevaluatehandlepagefunction-args) 方法的参数，
 
 #### jsHandle.asElement()
 - returns: <?[ElementHandle]>
 
 Returns either `null` or the object handle itself, if the object handle is an instance of [ElementHandle].
 
+如果对象句柄是 [ElementHandle] 的实例，则返回 `null` 或者对象句柄本身。
+
 #### jsHandle.dispose()
-- returns: <[Promise]> Promise which resolves when the object handle is successfully disposed.
+- returns: <[Promise]> Promise which resolves when the object handle is successfully disposed. （返回当对象句柄成功释放后执行完成的Promise）
 
 The `jsHandle.dispose` method stops referencing the element handle.
+
+`jsHandle.dispose` 方法会停止对元素句柄的引用。
 
 #### jsHandle.executionContext()
 - returns: [ExecutionContext]
 
 Returns execution context the handle belongs to.
 
+返回该句柄所在的执行上下文。
+
 #### jsHandle.getProperties()
 - returns: <[Promise]<[Map]<[string], [JSHandle]>>>
 
 The method returns a map with property names as keys and JSHandle instances for the property values.
+
+返回一个 map，其属性名作为键，属性值就是 JSHandle 实例。
 
 ```js
 const handle = await page.evaluateHandle(() => ({window, document}));
@@ -2935,10 +2972,12 @@ await handle.dispose();
 ```
 
 #### jsHandle.getProperty(propertyName)
-- `propertyName` <[string]> property to get
+- `propertyName` <[string]> property to get （需要获取的属性名）
 - returns: <[Promise]<[JSHandle]>>
 
 Fetches a single property from the referenced object.
+
+从引用的对象上获取单个属性。
 
 #### jsHandle.jsonValue()
 - returns: <[Promise]<[Object]>>
@@ -2947,7 +2986,12 @@ Returns a JSON representation of the object. If the object has a
 [`toJSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON()_behavior)
 function, it **will not be called**.
 
+返回对象的 JSON 格式。即便对象有 [`toJSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON()_behavior)
+方法也 **不会被调用**
+
 > **NOTE** The method will return an empty JSON object if the referenced object is not stringifiable. It will throw an error if the object has circular references.
+>
+> **提示：** 如果引用的对象不能序列化则该方法返回一个空 JSON 对象。如果对象出现循环引用则该方法会抛出错误。
 
 ### class: ElementHandle
 
