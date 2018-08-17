@@ -1479,7 +1479,7 @@ Navigate to the next page in history.
     - `networkidle2` - consider navigation to be finished when there are no more than 2 network connections for at least `500` ms. （当至少 `500` 以内有不超过 2 个网络连接时表示导航结束）
 - returns: <[Promise]<?[Response]>> Promise which resolves to the main resource response. In case of multiple redirects, the navigation will resolve with the response of the last redirect. （返回 Promise，该 Promise 将返回主资源的响应内容，在多次重定向的情况下，导航会返回最后一个重定向的响应内容。）
 
-The `page.goto` will throw an error if: 
+The `page.goto` will throw an error if:
 
 在以下情况下， `page.goto` 将会抛出错误：
 
@@ -1529,7 +1529,7 @@ Page is guaranteed to have a main frame which persists during navigations.
 Page 能够确保在导航期间也具有一个主 frame 存在。
 
 #### page.metrics()
-- returns: <[Promise]<[Object]>> Object containing metrics as key/value pairs. 
+- returns: <[Promise]<[Object]>> Object containing metrics as key/value pairs.
   - `Timestamp` <[number]> The timestamp when the metrics sample was taken.
   - `Documents` <[number]> Number of documents in the page.
   - `Frames` <[number]> Number of frames in the page.
@@ -2066,7 +2066,7 @@ Shortcut for [page.mainFrame().waitForSelector(selector[, options])](#framewaitf
 Wait for the `xpath` to appear in page. If at the moment of calling
 the method the `xpath` already exists, the method will return
 immediately. If the xpath doesn't appear after the `timeout` milliseconds of waiting, the function will throw.
- 
+
 该方法会等待  `xpath`  指定的元素出现在页面中，如果调用该函数的时候  `xpath` 指定的元素已经存在，该方法会立即返回。如果在 `timeout` 毫秒之后还没有出现，则抛出异常。
 
 This method works across navigations:
@@ -2124,7 +2124,7 @@ If the function passed to the `worker.evaluate` returns a [Promise], then `worke
 
 如果传给 `worker.evaluate` 的函数返回一个 Promise，则  `worker.evaluate` 会等待该 promise 返回并返回它返回的值。
 
-If the function passed to the `worker.evaluate` returns a non-[Serializable] value, then `worker.evaluate` resolves to `undefined`.  
+If the function passed to the `worker.evaluate` returns a non-[Serializable] value, then `worker.evaluate` resolves to `undefined`.
 
 如果传给 `worker.evaluate` 的函数返回一个不能序列化（non-[Serializable]）的值，则  `worker.evaluate` 的返回值将为  `undefined`。
 
@@ -2202,7 +2202,7 @@ await page.keyboard.up('Shift');
   - `text` <[string]> If specified, generates an input event with this text. （如果指定了该值，则会使用这段文字来生成一个 input 事件。）
 - returns: <[Promise]>
 
-Dispatches a `keydown` event.  
+Dispatches a `keydown` event.
 
 派发 `keydown` 事件。
 
@@ -2214,7 +2214,7 @@ If `key` is a modifier key, `Shift`, `Meta`, `Control`, or `Alt`, subsequent key
 
 如果 `key` 是一个修饰键， `Shift`, `Meta`, `Control`, 或者 `Alt`，随后的按键操作都将会保持修饰键激活的状态。使用 [`keyboard.up`](#keyboardupkey) 来释放修饰键。
 
-After the key is pressed once, subsequent calls to [`keyboard.down`](#keyboarddownkey-options) will have [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) set to true. To release the key, use [`keyboard.up`](#keyboardupkey). 
+After the key is pressed once, subsequent calls to [`keyboard.down`](#keyboarddownkey-options) will have [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) set to true. To release the key, use [`keyboard.up`](#keyboardupkey).
 
 键被按下一次之后，随后调用 [`keyboard.down`](#keyboarddownkey-options) 会将  [repeat](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat) 设为 true。使用 [`keyboard.up`](#keyboardupkey) 来释放键。
 
@@ -2312,7 +2312,7 @@ Shortcut for [`mouse.move`](#mousemovex-y-options), [`mouse.down`](#mousedownopt
 
 Dispatches a `mousedown` event.
 
-派发 `mousedown` 事件。 
+派发 `mousedown` 事件。
 
 #### mouse.move(x, y, [options])
 - `x` <[number]>
@@ -2342,7 +2342,7 @@ Dispatches a `mouseup` event.
 - `y` <[number]>
 - returns: <[Promise]>
 
-Dispatches a `touchstart` and `touchend` event. 
+Dispatches a `touchstart` and `touchend` event.
 
 派发 `touchstart` 和 `touchend` 事件。
 
@@ -2421,9 +2421,9 @@ puppeteer.launch().then(async browser => {
 #### consoleMessage.type()
 - returns: <[string]>
 
-One of the following values: `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.  
+One of the following values: `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.
 
-以下值之一： `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.  
+以下值之一： `'log'`, `'debug'`, `'info'`, `'error'`, `'warning'`, `'dir'`, `'dirxml'`, `'table'`, `'trace'`, `'clear'`, `'startGroup'`, `'startGroupCollapsed'`, `'endGroup'`, `'assert'`, `'profile'`, `'profileEnd'`, `'count'`, `'timeEnd'`.
 
 ### class: Frame
 
@@ -2919,7 +2919,7 @@ await mapPrototype.dispose();
 ### class: JSHandle
 
 JSHandle represents an in-page JavaScript object. JSHandles can be created with the [page.evaluateHandle](#pageevaluatehandlepagefunction-args) method.
- 
+
 JSHandle 代表页内 JavaScript 对象。 JSHandle 可以通过  [page.evaluateHandle](#pageevaluatehandlepagefunction-args) 方法来创建。
 
 ```js
@@ -2999,6 +2999,8 @@ function, it **will not be called**.
 
 ElementHandle represents an in-page DOM element. ElementHandles can be created with the [page.$](#pageselector) method.
 
+ElementHandle 代表页面中的 DOM 元素。它可以通过 [page.$](#pageselector) 方法创建。
+
 ```js
 const puppeteer = require('puppeteer');
 
@@ -3013,29 +3015,41 @@ puppeteer.launch().then(async browser => {
 
 ElementHandle prevents DOM element from garbage collection unless the handle is [disposed](#elementhandledispose). ElementHandles are auto-disposed when their origin frame gets navigated.
 
+ElementHandle 会在调用 [disposed](#elementhandledispose) 前阻止 DOM 元素被垃圾回收机制回收。当元素所在的原 frame 发生导航时元素会被自动销毁。
+
 ElementHandle instances can be used as arguments in [`page.$eval()`](#pageevalselector-pagefunction-args) and [`page.evaluate()`](#pageevaluatepagefunction-args) methods.
 
+ElementHandle 的实例可以作为 [`page.$eval()`](#pageevalselector-pagefunction-args) 和 [`page.evaluate()`](#pageevaluatepagefunction-args) 的参数。
+
 #### elementHandle.$(selector)
-- `selector` <[string]> A [selector] to query element for
+- `selector` <[string]> A [selector] to query element for （元素选择器）
 - returns: <[Promise]<?[ElementHandle]>>
 
 The method runs `element.querySelector` within the page. If no element matches the selector, the return value resolve to `null`.
 
+该方法会在页面中运行 `element.querySelector`。如果没有元素与该选择器匹配则 Promise 会返回 `null`。
+
 #### elementHandle.$$(selector)
-- `selector` <[string]> A [selector] to query element for
+- `selector` <[string]> A [selector] to query element for （元素选择器）
 - returns: <[Promise]<[Array]<[ElementHandle]>>>
 
 The method runs `element.querySelectorAll` within the page. If no elements match the selector, the return value resolve to `[]`.
 
+该方法会在页面中调用 `element.querySelectorAll`。如果该选择器没有匹配的元素则 Promise 返回 `[]`
+
 #### elementHandle.$$eval(selector, pageFunction, ...args)
-- `selector` <[string]> A [selector] to query page for
-- `pageFunction` <[function]> Function to be evaluated in browser context
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction`
+- `selector` <[string]> A [selector] to query page for  （元素选择器）
+- `pageFunction` <[function]> Function to be evaluated in browser context （在浏览器上下文中执行的函数）
+- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction` （传给 `pageFunction` 的参数）
+- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction` （返回 `pageFunction` 返回值的 Promsie ）
 
 This method runs `document.querySelectorAll` within the element and passes it as the first argument to `pageFunction`. If there's no element matching `selector`, the method throws an error.
 
+该方法在元素上运行 `document.querySelectorAll`，并将结果作为 `pageFunction` 的第一个参数（译者注：args的参数会在第一个参数之后）。如果 `selector` 没有与之匹配的元素则会抛出异常。
+
 If `pageFunction` returns a [Promise], then `frame.$$eval` would wait for the promise to resolve and return its value.
+
+如果 `pageFunction` 返回的是 [Promise]，则 `frame.$$eval` 也会等待该 promise 完成并返回其值。
 
 Examples:
 ```html
@@ -3050,14 +3064,18 @@ expect(await feedHandle.$$eval('.tweet', nodes => nodes.map(n => n.innerText)).t
 ```
 
 #### elementHandle.$eval(selector, pageFunction, ...args)
-- `selector` <[string]> A [selector] to query page for
-- `pageFunction` <[function]> Function to be evaluated in browser context
-- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction`
-- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction`
+- `selector` <[string]> A [selector] to query page for （元素选择器）
+- `pageFunction` <[function]> Function to be evaluated in browser context （在浏览器上下文执行的函数）
+- `...args` <...[Serializable]|[JSHandle]> Arguments to pass to `pageFunction` （传给 `pageFunction` 的参数）
+- returns: <[Promise]<[Serializable]>> Promise which resolves to the return value of `pageFunction` （返回 `pageFunction` 执行结果的 Promise）
 
 This method runs `document.querySelector` within the element and passes it as the first argument to `pageFunction`. If there's no element matching `selector`, the method throws an error.
 
+该方法会在元素上运行 `document.querySelector` 并将结果作为 `pageFunction` 的第一个参数。如果没有元素匹配 `selector` 则该方法抛出异常。
+
 If `pageFunction` returns a [Promise], then `frame.$eval` would wait for the promise to resolve and return its value.
+
+如果 `pageFunction` 返回 [Promise]，则 `frame.$eval` 也会等待该 promise 完成并返回其值。
 
 Examples:
 ```js
@@ -3067,51 +3085,68 @@ expect(await tweetHandle.$eval('.retweets', node => node.innerText)).toBe('10');
 ```
 
 #### elementHandle.$x(expression)
-- `expression` <[string]> Expression to [evaluate](https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate).
+- `expression` <[string]> Expression to [evaluate](https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate). （传给 [evaluate](https://developer.mozilla.org/en-US/docs/Web/API/Document/evaluate) 的表达式）
 - returns: <[Promise]<[Array]<[ElementHandle]>>>
 
 The method evaluates the XPath expression relative to the elementHandle. If there are no such elements, the method will resolve to an empty array.
+
+该方法会相对于 elementHandle 计算 XPath 表达式。如果没有改元素则 Promise 返回空数组。
 
 #### elementHandle.asElement()
 - returns: <[ElementHandle]>
 
 #### elementHandle.boundingBox()
 - returns: <[Promise]<?[Object]>>
-  - x <[number]> the x coordinate of the element in pixels.
-  - y <[number]> the y coordinate of the element in pixels.
-  - width <[number]> the width of the element in pixels.
-  - height <[number]> the height of the element in pixels.
+  - x <[number]> the x coordinate of the element in pixels. （元素的 x 坐标，以像素为单位）
+  - y <[number]> the y coordinate of the element in pixels.  （元素的 y 坐标，以像素为单位）
+  - width <[number]> the width of the element in pixels. （以像素为单位的宽度）
+  - height <[number]> the height of the element in pixels. （以像素为单位的高度）
 
 This method returns the bounding box of the element (relative to the main frame), or `null` if the element is not visible.
 
+该方法返回元素的边界盒（相对于主 frame），如果元素不可见则返回 `null`
+
 #### elementHandle.boxModel()
 - returns: <[Promise]<?[Object]>>
-  - content <[Array]<[Object]>> Content box, represented as an array of {x, y} points.
-  - padding <[Array]<[Object]>> Padding box, represented as an array of {x, y} points.
-  - border <[Array]<[Object]>> Border box, represented as an array of {x, y} points.
-  - margin <[Array]<[Object]>> Margin box, represented as an array of {x, y} points.
-  - width <[number]> Element's width.
-  - height <[number]> Element's height.
+  - content <[Array]<[Object]>> Content box, represented as an array of {x, y} points.  （Content box，表示为 {x, y} 点的数组）
+  - padding <[Array]<[Object]>> Padding box, represented as an array of {x, y} points.  （Padding box，表示为 {x, y} 点的数组）
+  - border <[Array]<[Object]>> Border box, represented as an array of {x, y} points.    （Border box，表示为 {x, y} 点的数组）
+  - margin <[Array]<[Object]>> Margin box, represented as an array of {x, y} points.    （Margin box，表示为 {x, y} 点的数组）
+  - width <[number]> Element's width.  （元素宽度）
+  - height <[number]> Element's height.   （元素高度）
 
 This method returns boxes of the element, or `null` if the element is not visible. Boxes are represented as an array of points; each Point is an object `{x, y}`. Box points are sorted clock-wise.
 
+该方法返回元素的盒子，如果元素不可见则返回 `null`。盒子以点的数组形式来表示；每个点是一个 `{x, y}` 对象。点以顺时针顺序排序。
+
 #### elementHandle.click([options])
 - `options` <[Object]>
-  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.
-  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].
-  - `delay` <[number]> Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0.
-- returns: <[Promise]> Promise which resolves when the element is successfully clicked. Promise gets rejected if the element is detached from DOM.
+  - `button` <[string]> `left`, `right`, or `middle`, defaults to `left`.  （`left`, `right`, 或 `middle`，默认为`left`）
+  - `clickCount` <[number]> defaults to 1. See [UIEvent.detail].  （默认为1，参考[UIEvent.detail]）
+  - `delay` <[number]> Time to wait between `mousedown` and `mouseup` in milliseconds. Defaults to 0.  （`mousedown` 和 `mouseup` 之间的毫秒时间（译者注：即鼠标按下和抬起的时间），默认为 0）
+- returns: <[Promise]> Promise which resolves when the element is successfully clicked. Promise gets rejected if the element is detached from DOM.  （当元素被成功点击之后 Promise 会返回。 如果元素已经从 DOM 中移除则 Promise 会拒绝）
 
 This method scrolls element into view if needed, and then uses [page.mouse](#pagemouse) to click in the center of the element.
 If the element is detached from DOM, the method throws an error.
 
+在需要的时候（译者注：如元素不在视口中）该方法会将元素滚动到视口中，然后使用 [page.mouse](#pagemouse) 来点击元素中心。如果元素已经从 DOM 中移除则会抛出错误。
+
 #### elementHandle.contentFrame()
-- returns: <[Promise]<?[Frame]>> Resolves to the content frame for element handles referencing iframe nodes, or null otherwise
+- returns: <[Promise]<?[Frame]>> Resolves to the content frame for element handles referencing iframe nodes, or null otherwise  （用于引用 iframe 节点的 elementHandle 获取其 content frame，否则为 null）
+
+```js
+// 译者示例代码：
+const pageElement = await page.$('iframe');
+const frame = await pageElement.contentFrame();  // 获取 node 代码中的 Frame 实例
+frame.$$eval('[link="#0000cc"]', el => { console.log(el)});
+```
 
 #### elementHandle.dispose()
-- returns: <[Promise]> Promise which resolves when the element handle is successfully disposed.
+- returns: <[Promise]> Promise which resolves when the element handle is successfully disposed.  （当元素句柄被成功销毁时 Promise 完成）
 
 The `elementHandle.dispose` method stops referencing the element handle.
+
+`elementHandle.dispose` 方法停止对 elementHandle 元素的引用。
 
 #### elementHandle.executionContext()
 - returns: [ExecutionContext]
@@ -3121,10 +3156,14 @@ The `elementHandle.dispose` method stops referencing the element handle.
 
 Calls [focus](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus) on the element.
 
+在元素上调用 [focus](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus)。
+
 #### elementHandle.getProperties()
 - returns: <[Promise]<[Map]<[string], [JSHandle]>>>
 
 The method returns a map with property names as keys and JSHandle instances for the property values.
+
+该方法返回键名为属性名，属性值为 JSHandle 实例的 map。
 
 ```js
 const listHandle = await page.evaluateHandle(() => document.body.children);
@@ -3143,6 +3182,8 @@ children; // holds elementHandles to all children of document.body
 - returns: <[Promise]<[JSHandle]>>
 
 Fetches a single property from the objectHandle.
+
+从对象句柄获取一个属性。
 
 #### elementHandle.hover()
 - returns: <[Promise]> Promise which resolves when the element is successfully hovered.
