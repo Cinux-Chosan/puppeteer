@@ -3281,7 +3281,7 @@ await elementHandle.press('Enter');
 
 This method expects `elementHandle` to point to an [input element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
-该方法期望 `elementHandle` 指定的是一个 [input 元素]((https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input))。
+该方法期望 `elementHandle` 指向的是一个 [input 元素]((https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input))。
 
 ### class: Request
 
